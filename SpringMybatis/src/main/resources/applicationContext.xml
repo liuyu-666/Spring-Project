@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--加载配置文件-->
+    <context:property-placeholder location="classpath:config.properties"/>
+    <!--自动把这个包下面的类都加到spring容器中-->
+    <context:component-scan base-package="com.kaishengit"/>
+    <!--建立数据库连接池-->
+    <bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--建立事务管理-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="dataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--代替MyBatis中的SqlSessionFactory-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sessionFactory">
+        <!--连接数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--entity下的实体类别名首字母小写-->
+        <property name="typeAliasesPackage" value="com.kaishengit.entity"/>
+        <!--映射mappers文件夹下的xml文件-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+        <!--其他设置-->
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <!--属性名带有下划线的映射为驼峰-->
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+            </bean>
+        </property>
+    </bean>
+    <!--开启基于注解的事务管理器-->
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+
+    <!--自动扫描MyBatisdeMapper接口 并自动产生实现类 并放入容器中-->
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.kaishengit.mapper"/>
+    </bean>
+
+</beans>

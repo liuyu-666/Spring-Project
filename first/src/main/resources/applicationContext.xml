@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.kaishengit.proxy"/>
+    <aop:aspectj-autoproxy/>
+<!--
+    <bean id="userDao" class="com.kaishengit.dao.UserDao"/>
+    <bean id="advice" class="com.kaishengit.proxy.advice.Advice"/>
+    <bean id="dell" class="com.kaishengit.proxy.pc.Dell"/>
+    <bean id="userServiceImpl" class="com.kaishengit.service.UserServiceImpl">
+        <property name="dao" ref="userDao"/>
+    </bean>
+    <aop:config>
+        <aop:aspect ref="advice">
+            <aop:pointcut id="pointcut" expression="execution(* com.kaishengit.proxy.pc..*.*(..))"/>
+            <aop:before method="beforeAdvice" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>-->
+</beans>
