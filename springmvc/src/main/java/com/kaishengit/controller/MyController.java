@@ -1,11 +1,9 @@
 package com.kaishengit.controller;
 
+import com.kaishengit.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,10 +42,21 @@ public class MyController {
         System.out.println(url);
         return "redirect:/" + url;
     }
-    @GetMapping("upload")
+    @GetMapping("/upload")
     public String upload() {
         return "upload";
     }
+
+    @GetMapping("/user")
+    @ResponseBody
+    public User findById() {
+        User user = new User();
+        user.setId(12);
+        user.setName("Alex");
+        user.setPassword("456654");
+        return  user;
+    }
+
     @PostMapping("/upload")
     public String upload(MultipartFile img) {
 
@@ -60,4 +69,7 @@ public class MyController {
             return "hello";
 
     }
+
+    
+
 }
